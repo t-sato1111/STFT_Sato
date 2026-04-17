@@ -22,13 +22,23 @@ for i = 1 : numFlames % 1~numFlamsまで繰り返し
     S(:, i) = paddedSig(startIndex : endIndex); % i列目のすべての行に代入 
 end
 
-% STFT
-winS = win .* S; % 窓かけ
-spect = fft(winS); % DFT
-absSpect = abs(spect); % 各要素の絶対値
-pwS = absSpect .^ 2; % パワースペクトログラムの計算
-logPwS = 10 * log10(pwS); % 対数
+% パワースペクトログラムの導出
+S = win .* S; % 窓かけ
+S = fft(S); % DFT
+S = 10 * log10(abs(S) .^ 2); % パワースペクトログラム
+
+% 時間軸と周波数軸の作成（各軸の値を成分数で分割）
+timeAxis = linspace(0, signalLength / fs, numFlames); % 合計秒数をフレーム数個に分割
+freqAxis = linspace(0, fs, windowLength); % 周波数の範囲を窓長個に分割
 
 % パワースペクトログラムのグラフ表示
-% fugure;
-% imagesc(logPwS, )
+figure;
+imagesc(timeAxis, freqAxis, S); % 横軸に時間、縦軸に周波数、色は強さ
+axis xy; % y軸の向きを反転(原点の位置を左上から左下に変更)
+xlabel('Time [s]');
+ylabel('Frequency [Hz]');
+title('Power Spectrogram');
+set(gca, "FontSize", 16);
+ylim([0, fs / 2]); % そのまま表示すると上下対象なので下半分だけ表示
+cb = colorbar; %　色と値の対応を表示
+cb.Label.String = 'Gain [dB]'; % カラーバーが何の値かのラベルを表示
