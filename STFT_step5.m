@@ -6,4 +6,4 @@ windowLength = 2 ^ 12; % 窓長
 shiftLength = windowLength / 2; % シフト長
 
 %関数の実行
-S = STFT_step5_sub(audioSig, fs, windowLength, shiftLength);
+S = calcSTFT(audioSig, fs, windowLength, shiftLength);

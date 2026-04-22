@@ -1,4 +1,4 @@
-function S = STFT_step5_sub(audioSig, fs, windowLength, shiftLength)
+function S = calcSTFT(audioSig, fs, windowLength, shiftLength)
 
 % 信号長確保
 signalLength = length(audioSig);
